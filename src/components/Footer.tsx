@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Bitcoin, Github, Twitter, Discord, Globe } from 'lucide-react';
+import { Bitcoin, Github, Twitter, MessageCircle, Globe } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -20,7 +19,7 @@ const Footer: React.FC = () => {
                 <Twitter className="h-5 w-5" />
               </a>
               <a href="#" className="text-white/60 hover:text-crypto-blue transition-colors">
-                <Discord className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" />
               </a>
               <a href="#" className="text-white/60 hover:text-crypto-blue transition-colors">
                 <Github className="h-5 w-5" />
