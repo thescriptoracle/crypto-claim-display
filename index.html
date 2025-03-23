@@ -1,16 +1,532 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto Giveaway</title>
-    <meta name="description" content="Join our exclusive crypto giveaway and claim your tokens now!" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Giveaway - Claim Your Free Tokens</title>
+  <meta name="description" content="Join our exclusive token giveaway and be part of the next generation of crypto enthusiasts.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Configure Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'crypto-blue': '#0066FF',
+            'crypto-blue-light': '#4D94FF',
+            'crypto-dark': '#121212',
+            'crypto-dark-light': '#1E1E1E',
+            'crypto-gray': '#2A2A2A',
+            'crypto-gray-light': '#3A3A3A',
+            'crypto-accent': '#00D1FF',
+          },
+          animation: {
+            'float': 'float 4s ease-in-out infinite',
+            'pulse-glow': 'pulse-glow 2s infinite',
+            'gradient-move': 'gradient-move 6s ease infinite',
+            'fade-in': 'fade-in 0.7s ease-out',
+            'fade-in-right': 'fade-in-right 0.7s ease-out',
+            'fade-in-left': 'fade-in-left 0.7s ease-out',
+            'scale-up': 'scale-up 0.5s ease-out',
+          },
+          keyframes: {
+            'float': {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            'pulse-glow': {
+              '0%, 100%': { boxShadow: '0 0 15px rgba(0, 209, 255, 0.5)' },
+              '50%': { boxShadow: '0 0 30px rgba(0, 209, 255, 0.8)' },
+            },
+            'gradient-move': {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' }
+            },
+            'fade-in': {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' }
+            },
+            'fade-in-right': {
+              '0%': { opacity: '0', transform: 'translateX(20px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' }
+            },
+            'fade-in-left': {
+              '0%': { opacity: '0', transform: 'translateX(-20px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' }
+            },
+            'scale-up': {
+              '0%': { opacity: '0', transform: 'scale(0.95)' },
+              '100%': { opacity: '1', transform: 'scale(1)' }
+            },
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Glass effect */
+    .glass {
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Button hover animations */
+    .btn-hover-effect {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+    
+    .btn-hover-effect::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: skewX(-45deg);
+      transition: all 0.5s;
+    }
+    
+    .btn-hover-effect:hover::after {
+      left: 100%;
+    }
+    
+    /* Animated gradient text */
+    .gradient-text {
+      background-image: linear-gradient(to right, #0066FF, #00D1FF, #4D94FF);
+      background-size: 200% 200%;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: gradient-move 6s ease infinite;
+    }
+    
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #1E1E1E;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #2A2A2A;
+      border-radius: 9999px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3A3A3A;
+    }
+    
+    /* Particles canvas */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen overflow-x-hidden">
+  <!-- Animated Background -->
+  <div id="particles-js"></div>
+  
+  <!-- Navigation Bar -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 text-xl font-bold">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bitcoin-sign"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5 17.729m6.767 1.36 1.239.218m-1.239-.218V7.813m1.239 11.894c5.333.965 7.123-6.973 1.216-8.157M11.767 7.813c4.235.764 5.26-5.834.472-6.598-4.787-.764-17.39-3.069-17.39-3.069l7.803 13.333h6.822"/></svg>
+        <span class="gradient-text">CryptoGiveaway</span>
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#features" class="text-white/80 hover:text-white transition-colors">Features</a>
+        <a href="#token" class="text-white/80 hover:text-white transition-colors">Token</a>
+        <a href="#claim" class="text-white/80 hover:text-white transition-colors">Claim</a>
+        <a href="#claim" 
+           class="bg-crypto-blue text-white px-5 py-2 rounded-md hover:bg-crypto-blue-light transition-all duration-300 btn-hover-effect">
+          Connect Wallet
+        </a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-button" class="md:hidden text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden absolute top-full left-0 right-0 bg-crypto-dark-light/95 backdrop-blur-lg shadow-lg hidden animate-fade-in">
+      <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+        <a href="#features" class="text-white/80 hover:text-white transition-colors py-2">Features</a>
+        <a href="#token" class="text-white/80 hover:text-white transition-colors py-2">Token</a>
+        <a href="#claim" class="text-white/80 hover:text-white transition-colors py-2">Claim</a>
+        <a href="#claim" class="bg-crypto-blue text-white px-5 py-2 rounded-md hover:bg-crypto-blue-light transition-all duration-300 text-center">
+          Connect Wallet
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <section class="min-h-screen relative flex flex-col justify-center items-center pt-20 pb-16 px-4">
+    <div id="hero-content" class="container mx-auto text-center max-w-5xl opacity-0 translate-y-10 transition-all duration-1000">
+      <div class="space-y-1 mb-4">
+        <span class="inline-block px-3 py-1 text-xs font-medium bg-crypto-blue/10 text-crypto-accent rounded-full">
+          Limited Time Offer
+        </span>
+      </div>
+      
+      <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+        Claim Your <span class="gradient-text">Free</span> Crypto<br>
+        <span class="gradient-text">Tokens</span> Today
+      </h1>
+      
+      <p class="text-white/70 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+        Join our exclusive giveaway and receive valuable tokens directly to your wallet.
+        Limited availability, act fast to secure your share.
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-16">
+        <a href="#claim" class="bg-crypto-blue hover:bg-crypto-blue-light text-white px-8 py-4 rounded-lg text-lg font-medium transition-all duration-300 flex items-center gap-2 btn-hover-effect animate-pulse-glow">
+          Claim Your Tokens 
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        
+        <a href="#features" class="glass px-8 py-4 rounded-lg text-lg font-medium hover:bg-white/20 transition-all duration-300 flex items-center gap-2">
+          Learn More
+        </a>
+      </div>
+      
+      <div class="mt-8 flex items-center justify-center">
+        <div class="glass flex items-center gap-4 px-6 py-3 rounded-full">
+          <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+          <span>
+            <span class="font-bold">876</span> people claimed tokens in the last 24 hours
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-8 left-0 right-0 flex justify-center animate-bounce">
+      <a href="#features" class="text-white/50 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 13 5 5 5-5"/><path d="m7 7 5 5 5-5"/></svg>
+      </a>
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section id="features" class="py-24 px-4">
+    <div class="container mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Why Join Our <span class="gradient-text">Giveaway</span>
+        </h2>
+        <p class="text-white/70 max-w-2xl mx-auto">
+          Our token giveaway offers more than just free crypto. Discover all the benefits of participating in our exclusive event.
+        </p>
+      </div>
+      
+      <div id="features-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Feature cards will be added by JavaScript -->
+      </div>
+    </div>
+  </section>
+  
+  <!-- Token Info Section -->
+  <section id="token" class="py-24 px-4 bg-crypto-dark-light/30">
+    <div class="container mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Token <span class="gradient-text">Information</span>
+        </h2>
+        <p class="text-white/70 max-w-2xl mx-auto">
+          Our token has shown consistent growth since its inception, backed by a strong community and solid use cases.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <div id="chart-container" class="opacity-0 transition-all duration-1000">
+          <div class="glass rounded-xl p-6 h-[350px]">
+            <canvas id="price-chart"></canvas>
+          </div>
+        </div>
+        
+        <div id="token-stats" class="space-y-6 opacity-0 transition-all duration-1000">
+          <div class="grid grid-cols-2 gap-4">
+            <div class="glass rounded-lg p-4">
+              <p class="text-white/70 text-sm mb-1">Current Price</p>
+              <div class="flex items-end gap-2">
+                <h4 class="text-xl font-bold">$0.0142</h4>
+                <span class="text-sm text-green-500">+12.8%</span>
+              </div>
+            </div>
+            <div class="glass rounded-lg p-4">
+              <p class="text-white/70 text-sm mb-1">Market Cap</p>
+              <div class="flex items-end gap-2">
+                <h4 class="text-xl font-bold">$14.2M</h4>
+                <span class="text-sm text-green-500">+8.3%</span>
+              </div>
+            </div>
+            <div class="glass rounded-lg p-4">
+              <p class="text-white/70 text-sm mb-1">Volume (24h)</p>
+              <div class="flex items-end gap-2">
+                <h4 class="text-xl font-bold">$1.8M</h4>
+                <span class="text-sm text-green-500">+5.2%</span>
+              </div>
+            </div>
+            <div class="glass rounded-lg p-4">
+              <p class="text-white/70 text-sm mb-1">Holders</p>
+              <div class="flex items-end gap-2">
+                <h4 class="text-xl font-bold">42,567</h4>
+                <span class="text-sm text-green-500">+215</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="glass rounded-lg p-6 space-y-4">
+            <h3 class="text-xl font-bold">Token Details</h3>
+            
+            <div class="grid grid-cols-2 gap-y-3 text-sm">
+              <div class="text-white/70">Token Name:</div>
+              <div class="font-medium">CryptoGive (CGV)</div>
+              
+              <div class="text-white/70">Total Supply:</div>
+              <div class="font-medium">1,000,000,000 CGV</div>
+              
+              <div class="text-white/70">Circulating Supply:</div>
+              <div class="font-medium">420,500,000 CGV</div>
+              
+              <div class="text-white/70">Blockchain:</div>
+              <div class="font-medium">Ethereum, BSC, Polygon</div>
+              
+              <div class="text-white/70">Token Type:</div>
+              <div class="font-medium">ERC-20 / BEP-20</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Claim Section -->
+  <section id="claim" class="py-24 px-4">
+    <div id="claim-section" class="container mx-auto max-w-5xl opacity-0 translate-y-10 transition-all duration-1000">
+      <div class="glass rounded-2xl overflow-hidden">
+        <div class="bg-gradient-to-r from-crypto-blue/20 to-crypto-accent/20 p-1">
+          <div class="bg-crypto-dark-light p-8 md:p-12 rounded-xl">
+            <div class="text-center mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                Claim Your <span class="gradient-text">Free Tokens</span> Now
+              </h2>
+              <p class="text-white/70 max-w-2xl mx-auto">
+                Complete the form below to receive your tokens. Hurry, the giveaway is limited to the first 10,000 participants.
+              </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div class="space-y-6">
+                <div class="space-y-2">
+                  <label for="email" class="block text-sm font-medium">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-4 py-3 bg-crypto-gray border border-crypto-gray-light rounded-lg focus:outline-none focus:ring-2 focus:ring-crypto-blue transition-all"
+                    placeholder="your@email.com"
+                  />
+                </div>
+                
+                <div class="space-y-2">
+                  <label for="wallet" class="block text-sm font-medium">
+                    Wallet Address
+                  </label>
+                  <input
+                    type="text"
+                    id="wallet"
+                    class="w-full px-4 py-3 bg-crypto-gray border border-crypto-gray-light rounded-lg focus:outline-none focus:ring-2 focus:ring-crypto-blue transition-all"
+                    placeholder="0x..."
+                  />
+                </div>
+                
+                <div class="pt-4">
+                  <a 
+                    href="#"
+                    id="claim-button" 
+                    class="w-full bg-crypto-blue hover:bg-crypto-blue-light text-white px-6 py-4 rounded-lg text-center font-medium flex items-center justify-center gap-2 transition-all duration-300 btn-hover-effect animate-pulse-glow"
+                  >
+                    Claim Your Tokens 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </a>
+                </div>
+              </div>
+              
+              <div class="space-y-6">
+                <div class="glass rounded-lg p-5 space-y-4">
+                  <h3 class="text-lg font-semibold">Contract Details</h3>
+                  
+                  <div class="space-y-1">
+                    <p class="text-sm text-white/70">Contract Address:</p>
+                    <div class="flex items-center gap-2 bg-crypto-gray p-2 rounded">
+                      <code id="contract-address" class="text-xs md:text-sm overflow-x-auto whitespace-nowrap flex-1">0x7A86C0b064171007716bbD6Ef4C5876c8E9f0E9A</code>
+                      <button 
+                        id="copy-button"
+                        class="p-1.5 rounded-md hover:bg-crypto-gray-light transition-colors"
+                        aria-label="Copy contract address"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div class="space-y-1">
+                    <p class="text-sm text-white/70">Tokens per Claim:</p>
+                    <p class="font-medium">5,000 CGV</p>
+                  </div>
+                  
+                  <div class="space-y-1">
+                    <p class="text-sm text-white/70">Supported Networks:</p>
+                    <div class="flex gap-2">
+                      <span class="px-2 py-1 bg-crypto-gray rounded text-xs font-medium">Ethereum</span>
+                      <span class="px-2 py-1 bg-crypto-gray rounded text-xs font-medium">BSC</span>
+                      <span class="px-2 py-1 bg-crypto-gray rounded text-xs font-medium">Polygon</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="glass rounded-lg p-5">
+                  <div class="flex items-start gap-4">
+                    <div class="rounded-full bg-green-500/20 p-2 mt-0.5">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </div>
+                    <div>
+                      <h4 class="font-medium">Verified Smart Contract</h4>
+                      <p class="text-sm text-white/70">Our contract has been audited by Certik and Hacken.</p>
+                      <a 
+                        href="https://etherscan.io" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="text-crypto-blue hover:text-crypto-blue-light text-sm inline-flex items-center gap-1 mt-1 transition-colors"
+                      >
+                        View on Etherscan 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="m10 14 11-11"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="bg-crypto-dark-light">
+    <div class="container mx-auto py-12 px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="md:col-span-1">
+          <a href="#" class="flex items-center gap-2 text-xl font-bold mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0066FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bitcoin-sign"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5 17.729m6.767 1.36 1.239.218m-1.239-.218V7.813m1.239 11.894c5.333.965 7.123-6.973 1.216-8.157M11.767 7.813c4.235.764 5.26-5.834.472-6.598-4.787-.764-17.39-3.069-17.39-3.069l7.803 13.333h6.822"/></svg>
+            <span class="gradient-text">CryptoGiveaway</span>
+          </a>
+          <p class="text-white/60 text-sm mb-6">
+            Join our exclusive token giveaway and be part of the next generation of crypto enthusiasts.
+          </p>
+          <div class="flex gap-4">
+            <a href="#" class="text-white/60 hover:text-crypto-blue transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+            </a>
+            <a href="#" class="text-white/60 hover:text-crypto-blue transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </a>
+            <a href="#" class="text-white/60 hover:text-crypto-blue transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+            </a>
+            <a href="#" class="text-white/60 hover:text-crypto-blue transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" x2="19.07" y1="4.93" y2="19.07"/></svg>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Home</a></li>
+            <li><a href="#features" class="text-white/60 hover:text-white transition-colors">Features</a></li>
+            <li><a href="#token" class="text-white/60 hover:text-white transition-colors">Token</a></li>
+            <li><a href="#claim" class="text-white/60 hover:text-white transition-colors">Claim</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium mb-4">Resources</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Whitepaper</a></li>
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Documentation</a></li>
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Smart Contract</a></li>
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Audit Report</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-medium mb-4">Legal</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Terms of Service</a></li>
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Disclaimer</a></li>
+            <li><a href="#" class="text-white/60 hover:text-white transition-colors">Cookie Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-crypto-gray/30 mt-12 pt-6 text-center text-white/40 text-sm">
+        <p>© <span id="currentYear"></span> CryptoGiveaway. All rights reserved.</p>
+        <p class="mt-2">
+          Disclaimer: This is a demonstration website. No real tokens or cryptocurrencies are being distributed.
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Scripts -->
+  <!-- Particles.js for animated background -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <!-- Chart.js for token price chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Main JavaScript -->
+  <script src="script.js"></script>
+</body>
 </html>
