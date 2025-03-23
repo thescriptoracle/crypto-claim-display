@@ -1,10 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +90,53 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-crypto-dark text-white overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Glass effect */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  /* Button hover animations */
+  .btn-hover-effect {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+  
+  .btn-hover-effect::after {
+    @apply content-[''] absolute top-0 left-[-100%] w-full h-full bg-white/20 transform skew-x-[-45deg] transition-all duration-500;
+  }
+  
+  .btn-hover-effect:hover::after {
+    @apply left-[100%];
+  }
+  
+  /* Animated gradient text */
+  .gradient-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-crypto-blue via-crypto-accent to-crypto-blue-light animate-gradient-move;
+    background-size: 200% 200%;
+  }
+  
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-crypto-dark-light;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-crypto-gray rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-crypto-gray-light;
   }
 }
