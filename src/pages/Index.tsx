@@ -4,7 +4,6 @@ import AnimatedBackground from '../components/AnimatedBackground';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
-import TokenInfo from '../components/TokenInfo';
 import Claim from '../components/Claim';
 import Footer from '../components/Footer';
 
@@ -24,7 +23,6 @@ const Index = () => {
       <Navbar />
       <Hero />
       <Features />
-      <TokenInfo />
       <Claim />
       <Footer />
     </div>

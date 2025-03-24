@@ -33,22 +33,6 @@ const featureData = [
   },
 ];
 
-// Sample data for the price chart
-const priceData = [
-  { name: 'Jan', price: 0.0025 },
-  { name: 'Feb', price: 0.0032 },
-  { name: 'Mar', price: 0.0028 },
-  { name: 'Apr', price: 0.0042 },
-  { name: 'May', price: 0.0058 },
-  { name: 'Jun', price: 0.0065 },
-  { name: 'Jul', price: 0.0072 },
-  { name: 'Aug', price: 0.0088 },
-  { name: 'Sep', price: 0.0094 },
-  { name: 'Oct', price: 0.0110 },
-  { name: 'Nov', price: 0.0125 },
-  { name: 'Dec', price: 0.0142 },
-];
-
 // DOM elements
 const mobileMenuButton = document.getElementById('mobile-menu-button');
 const menuIcon = document.getElementById('menu-icon');
@@ -57,8 +41,6 @@ const mobileMenu = document.getElementById('mobile-menu');
 const navbar = document.querySelector('.navbar');
 const heroContent = document.getElementById('hero-content');
 const featuresGrid = document.getElementById('features-grid');
-const chartContainer = document.getElementById('chart-container');
-const tokenStats = document.getElementById('token-stats');
 const claimSection = document.getElementById('claim-section');
 const copyButton = document.getElementById('copy-button');
 const contractAddress = document.getElementById('contract-address');
@@ -101,59 +83,64 @@ window.addEventListener('scroll', () => {
 });
 
 // Copy contract address to clipboard
-copyButton.addEventListener('click', () => {
-  navigator.clipboard.writeText(contractAddress.textContent);
-  const originalHTML = copyButton.innerHTML;
-  copyButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
-  setTimeout(() => {
-    copyButton.innerHTML = originalHTML;
-  }, 2000);
-});
+if (copyButton && contractAddress) {
+  copyButton.addEventListener('click', () => {
+    navigator.clipboard.writeText(contractAddress.textContent);
+    const originalHTML = copyButton.innerHTML;
+    copyButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    setTimeout(() => {
+      copyButton.innerHTML = originalHTML;
+    }, 2000);
+  });
+}
 
 // Claim form submit handler
-claimForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const wallet = document.getElementById('wallet').value;
-  
-  // Simple validation
-  if (!email || !wallet) {
-    alert('Please fill in both email and wallet address fields.');
-    return;
-  }
-  
-  if (!email.includes('@') || !email.includes('.')) {
-    alert('Please enter a valid email address.');
-    return;
-  }
-  
-  if (wallet.length < 10) {
-    alert('Please enter a valid wallet address.');
-    return;
-  }
-  
-  // Simulated success - in a real app, this would send to a backend
-  alert('Congratulations! Your claim has been submitted. Tokens will be sent to your wallet shortly.');
-});
+if (claimForm) {
+  claimForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const wallet = document.getElementById('wallet').value;
+    
+    // Simple validation
+    if (!email || !wallet) {
+      alert('Please fill in both email and wallet address fields.');
+      return;
+    }
+    
+    if (!email.includes('@') || !email.includes('.')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    
+    if (wallet.length < 10) {
+      alert('Please enter a valid wallet address.');
+      return;
+    }
+    
+    // Simulated success - in a real app, this would send to a backend
+    alert('Congratulations! Your claim has been submitted. Tokens will be sent to your wallet shortly.');
+  });
+}
 
 // Initialize animations and content when page loads
 document.addEventListener('DOMContentLoaded', () => {
   // Show hero content with animation
   setTimeout(() => {
-    heroContent.classList.add('visible');
+    if (heroContent) {
+      heroContent.classList.add('visible');
+    }
   }, 300);
   
   // Populate features grid
-  populateFeatures();
+  if (featuresGrid) {
+    populateFeatures();
+  }
   
   // Initialize particles.js
   initParticles();
   
   // Initialize intersection observers for scroll animations
   initIntersectionObservers();
-  
-  // Initialize token price chart
-  initChart();
 });
 
 // Populate features grid with feature cards
@@ -282,20 +269,6 @@ function initIntersectionObservers() {
     { threshold: 0.1 }
   );
   
-  // Token info observer
-  const tokenObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          chartContainer.classList.add('visible');
-          tokenStats.classList.add('visible');
-          tokenObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
-  
   // Claim section observer
   const claimObserver = new IntersectionObserver(
     (entries) => {
@@ -311,87 +284,5 @@ function initIntersectionObservers() {
   
   // Observe elements
   if (featuresGrid) featuresObserver.observe(featuresGrid);
-  if (document.getElementById('token')) tokenObserver.observe(document.getElementById('token'));
   if (claimSection) claimObserver.observe(claimSection);
-}
-
-// Initialize token price chart using Chart.js
-function initChart() {
-  const ctx = document.getElementById('price-chart').getContext('2d');
-  
-  const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-  gradient.addColorStop(0, 'rgba(0, 102, 255, 0.8)');
-  gradient.addColorStop(1, 'rgba(0, 102, 255, 0)');
-  
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: priceData.map(item => item.name),
-      datasets: [{
-        label: 'Token Price (USD)',
-        data: priceData.map(item => item.price),
-        borderColor: '#0066FF',
-        backgroundColor: gradient,
-        tension: 0.4,
-        fill: true,
-        pointBackgroundColor: '#0066FF',
-        pointBorderColor: '#fff',
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        borderWidth: 3
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false
-        },
-        tooltip: {
-          backgroundColor: '#1E1E1E',
-          titleColor: '#fff',
-          bodyColor: '#fff',
-          bodyFont: {
-            size: 14
-          },
-          padding: 12,
-          borderColor: '#3A3A3A',
-          borderWidth: 1,
-          displayColors: false,
-          callbacks: {
-            label: function(context) {
-              return `$${context.raw}`;
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          grid: {
-            color: 'rgba(42, 42, 42, 0.5)',
-            borderColor: 'rgba(42, 42, 42, 0.5)',
-            tickColor: 'rgba(42, 42, 42, 0.5)'
-          },
-          ticks: {
-            color: 'rgba(255, 255, 255, 0.6)'
-          }
-        },
-        y: {
-          beginAtZero: true,
-          grid: {
-            color: 'rgba(42, 42, 42, 0.5)',
-            borderColor: 'rgba(42, 42, 42, 0.5)',
-            tickColor: 'rgba(42, 42, 42, 0.5)'
-          },
-          ticks: {
-            color: 'rgba(255, 255, 255, 0.6)',
-            callback: function(value) {
-              return '$' + value;
-            }
-          }
-        }
-      }
-    }
-  });
 }
