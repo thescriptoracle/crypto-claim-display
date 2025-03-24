@@ -49,20 +49,24 @@ const claimButton = document.getElementById('claim-button');
 const claimForm = document.getElementById('claim-form');
 
 // Set current year in footer
-currentYearElement.textContent = new Date().getFullYear();
+if (currentYearElement) {
+  currentYearElement.textContent = new Date().getFullYear();
+}
 
 // Mobile menu toggle
-mobileMenuButton.addEventListener('click', () => {
-  if (mobileMenu.classList.contains('hidden')) {
-    mobileMenu.classList.remove('hidden');
-    menuIcon.classList.add('hidden');
-    closeIcon.classList.remove('hidden');
-  } else {
-    mobileMenu.classList.add('hidden');
-    menuIcon.classList.remove('hidden');
-    closeIcon.classList.add('hidden');
-  }
-});
+if (mobileMenuButton) {
+  mobileMenuButton.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('hidden')) {
+      mobileMenu.classList.remove('hidden');
+      menuIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+    } else {
+      mobileMenu.classList.add('hidden');
+      menuIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
+    }
+  });
+}
 
 // Close mobile menu when clicking on a menu item
 document.querySelectorAll('#mobile-menu a').forEach(link => {
@@ -149,7 +153,7 @@ function populateFeatures() {
     const featureCard = document.createElement('div');
     featureCard.className = 'feature-card';
     featureCard.innerHTML = `
-      <div class="mb-4">${feature.icon}</div>
+      <div class="feature-icon">${feature.icon}</div>
       <h3>${feature.title}</h3>
       <p>${feature.description}</p>
     `;
@@ -159,130 +163,149 @@ function populateFeatures() {
 
 // Initialize particles.js for the animated background
 function initParticles() {
-  particlesJS('particles-js', {
-    particles: {
-      number: {
-        value: 80,
-        density: {
-          enable: true,
-          value_area: 800
-        }
-      },
-      color: {
-        value: '#0066FF'
-      },
-      shape: {
-        type: 'circle',
-        stroke: {
-          width: 0,
-          color: '#000000'
-        }
-      },
-      opacity: {
-        value: 0.3,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 1,
-          opacity_min: 0.1,
-          sync: false
-        }
-      },
-      size: {
-        value: 3,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 2,
-          size_min: 0.1,
-          sync: false
-        }
-      },
-      line_linked: {
-        enable: true,
-        distance: 150,
-        color: '#0066FF',
-        opacity: 0.2,
-        width: 1
-      },
-      move: {
-        enable: true,
-        speed: 1,
-        direction: 'none',
-        random: true,
-        straight: false,
-        out_mode: 'out',
-        bounce: false,
-        attract: {
-          enable: false,
-          rotateX: 600,
-          rotateY: 1200
-        }
-      }
-    },
-    interactivity: {
-      detect_on: 'canvas',
-      events: {
-        onhover: {
-          enable: true,
-          mode: 'grab'
-        },
-        onclick: {
-          enable: true,
-          mode: 'push'
-        },
-        resize: true
-      },
-      modes: {
-        grab: {
-          distance: 140,
-          line_linked: {
-            opacity: 0.8
+  if (typeof particlesJS !== 'undefined') {
+    particlesJS('particles-js', {
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800
           }
         },
-        push: {
-          particles_nb: 4
+        color: {
+          value: '#0066FF'
+        },
+        shape: {
+          type: 'circle',
+          stroke: {
+            width: 0,
+            color: '#000000'
+          }
+        },
+        opacity: {
+          value: 0.3,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 2,
+            size_min: 0.1,
+            sync: false
+          }
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: '#0066FF',
+          opacity: 0.2,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: 'none',
+          random: true,
+          straight: false,
+          out_mode: 'out',
+          bounce: false,
+          attract: {
+            enable: false,
+            rotateX: 600,
+            rotateY: 1200
+          }
         }
-      }
-    },
-    retina_detect: true
-  });
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: {
+          onhover: {
+            enable: true,
+            mode: 'grab'
+          },
+          onclick: {
+            enable: true,
+            mode: 'push'
+          },
+          resize: true
+        },
+        modes: {
+          grab: {
+            distance: 140,
+            line_linked: {
+              opacity: 0.8
+            }
+          },
+          push: {
+            particles_nb: 4
+          }
+        }
+      },
+      retina_detect: true
+    });
+  }
 }
 
 // Initialize intersection observers for scroll animations
 function initIntersectionObservers() {
-  // Features observer
-  const featuresObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const elements = entry.target.querySelectorAll('.feature-card');
-          elements.forEach((el, i) => {
-            setTimeout(() => {
-              el.classList.add('visible');
-            }, i * 150);
-          });
-          featuresObserver.unobserve(entry.target);
-        }
+  // Check if IntersectionObserver is supported
+  if ('IntersectionObserver' in window) {
+    // Features observer
+    const featuresObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elements = entry.target.querySelectorAll('.feature-card');
+            elements.forEach((el, i) => {
+              setTimeout(() => {
+                el.classList.add('visible');
+              }, i * 150);
+            });
+            featuresObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    
+    // Claim section observer
+    const claimObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (claimSection) {
+              claimSection.classList.add('visible');
+            }
+            claimObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+    
+    // Observe elements
+    if (featuresGrid) featuresObserver.observe(featuresGrid);
+    if (claimSection) claimObserver.observe(claimSection);
+  } else {
+    // Fallback for browsers that don't support IntersectionObserver
+    if (featuresGrid) {
+      const featureCards = featuresGrid.querySelectorAll('.feature-card');
+      featureCards.forEach((card) => {
+        card.classList.add('visible');
       });
-    },
-    { threshold: 0.1 }
-  );
-  
-  // Claim section observer
-  const claimObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          claimSection.classList.add('visible');
-          claimObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1 }
-  );
-  
-  // Observe elements
-  if (featuresGrid) featuresObserver.observe(featuresGrid);
-  if (claimSection) claimObserver.observe(claimSection);
+    }
+    
+    if (claimSection) {
+      claimSection.classList.add('visible');
+    }
+  }
 }
