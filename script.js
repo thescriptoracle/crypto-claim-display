@@ -51,8 +51,10 @@ const priceData = [
 
 // DOM elements
 const mobileMenuButton = document.getElementById('mobile-menu-button');
+const menuIcon = document.getElementById('menu-icon');
+const closeIcon = document.getElementById('close-icon');
 const mobileMenu = document.getElementById('mobile-menu');
-const navbar = document.getElementById('navbar');
+const navbar = document.querySelector('.navbar');
 const heroContent = document.getElementById('hero-content');
 const featuresGrid = document.getElementById('features-grid');
 const chartContainer = document.getElementById('chart-container');
@@ -62,6 +64,7 @@ const copyButton = document.getElementById('copy-button');
 const contractAddress = document.getElementById('contract-address');
 const currentYearElement = document.getElementById('currentYear');
 const claimButton = document.getElementById('claim-button');
+const claimForm = document.getElementById('claim-form');
 
 // Set current year in footer
 currentYearElement.textContent = new Date().getFullYear();
@@ -70,8 +73,12 @@ currentYearElement.textContent = new Date().getFullYear();
 mobileMenuButton.addEventListener('click', () => {
   if (mobileMenu.classList.contains('hidden')) {
     mobileMenu.classList.remove('hidden');
+    menuIcon.classList.add('hidden');
+    closeIcon.classList.remove('hidden');
   } else {
     mobileMenu.classList.add('hidden');
+    menuIcon.classList.remove('hidden');
+    closeIcon.classList.add('hidden');
   }
 });
 
@@ -79,17 +86,17 @@ mobileMenuButton.addEventListener('click', () => {
 document.querySelectorAll('#mobile-menu a').forEach(link => {
   link.addEventListener('click', () => {
     mobileMenu.classList.add('hidden');
+    menuIcon.classList.remove('hidden');
+    closeIcon.classList.add('hidden');
   });
 });
 
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
   if (window.scrollY > 10) {
-    navbar.classList.add('bg-crypto-dark-light/80', 'backdrop-blur-md', 'py-3', 'shadow-lg');
-    navbar.classList.remove('py-5', 'bg-transparent');
+    navbar.classList.add('scrolled');
   } else {
-    navbar.classList.remove('bg-crypto-dark-light/80', 'backdrop-blur-md', 'py-3', 'shadow-lg');
-    navbar.classList.add('py-5', 'bg-transparent');
+    navbar.classList.remove('scrolled');
   }
 });
 
@@ -103,8 +110,8 @@ copyButton.addEventListener('click', () => {
   }, 2000);
 });
 
-// Claim button click handler
-claimButton.addEventListener('click', (e) => {
+// Claim form submit handler
+claimForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const email = document.getElementById('email').value;
   const wallet = document.getElementById('wallet').value;
@@ -133,8 +140,7 @@ claimButton.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
   // Show hero content with animation
   setTimeout(() => {
-    heroContent.classList.remove('opacity-0', 'translate-y-10');
-    heroContent.classList.add('opacity-100', 'translate-y-0');
+    heroContent.classList.add('visible');
   }, 300);
   
   // Populate features grid
@@ -154,11 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function populateFeatures() {
   featureData.forEach((feature, index) => {
     const featureCard = document.createElement('div');
-    featureCard.className = 'feature-card glass rounded-xl p-6 opacity-0 transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(0,102,255,0.3)]';
+    featureCard.className = 'feature-card';
     featureCard.innerHTML = `
       <div class="mb-4">${feature.icon}</div>
-      <h3 class="text-xl font-semibold mb-2">${feature.title}</h3>
-      <p class="text-white/70">${feature.description}</p>
+      <h3>${feature.title}</h3>
+      <p>${feature.description}</p>
     `;
     featuresGrid.appendChild(featureCard);
   });
@@ -266,8 +272,7 @@ function initIntersectionObservers() {
           const elements = entry.target.querySelectorAll('.feature-card');
           elements.forEach((el, i) => {
             setTimeout(() => {
-              el.classList.add('animate-fade-in');
-              el.style.opacity = '1';
+              el.classList.add('visible');
             }, i * 150);
           });
           featuresObserver.unobserve(entry.target);
@@ -282,10 +287,8 @@ function initIntersectionObservers() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          chartContainer.classList.add('animate-fade-in-left');
-          tokenStats.classList.add('animate-fade-in-right');
-          chartContainer.style.opacity = '1';
-          tokenStats.style.opacity = '1';
+          chartContainer.classList.add('visible');
+          tokenStats.classList.add('visible');
           tokenObserver.unobserve(entry.target);
         }
       });
@@ -298,8 +301,7 @@ function initIntersectionObservers() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          claimSection.classList.remove('opacity-0', 'translate-y-10');
-          claimSection.classList.add('opacity-100', 'translate-y-0');
+          claimSection.classList.add('visible');
           claimObserver.unobserve(entry.target);
         }
       });
