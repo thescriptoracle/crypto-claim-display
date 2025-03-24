@@ -25,7 +25,7 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 text-xl font-bold">
           <Bitcoin className="h-6 w-6 text-crypto-blue" />
-          <span className="gradient-text">CryptoGiveaway</span>
+          <span className="gradient-text">CryptoFiesta</span>
         </a>
         
         {/* Desktop Navigation */}

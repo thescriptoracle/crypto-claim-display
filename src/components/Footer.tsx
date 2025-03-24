@@ -9,10 +9,10 @@ const Footer: React.FC = () => {
           <div className="md:col-span-1">
             <a href="#" className="flex items-center gap-2 text-xl font-bold mb-4">
               <Bitcoin className="h-6 w-6 text-crypto-blue" />
-              <span className="gradient-text">CryptoGiveaway</span>
+              <span className="gradient-text">CryptoFiesta</span>
             </a>
             <p className="text-white/60 text-sm mb-6">
-              Join our exclusive token giveaway and be part of the next generation of crypto enthusiasts.
+              Join our exclusive token fiesta and be part of the next generation of crypto enthusiasts.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-white/60 hover:text-crypto-blue transition-colors">
@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
         </div>
         
         <div className="border-t border-crypto-gray/30 mt-12 pt-6 text-center text-white/40 text-sm">
-          <p>© {new Date().getFullYear()} CryptoGiveaway. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} CryptoFiesta. All rights reserved.</p>
           <p className="mt-2">
             Disclaimer: This is a demonstration website. No real tokens or cryptocurrencies are being distributed.
           </p>
